@@ -1,0 +1,68 @@
+
+# Arquivo do orquestrador de como rodar os containers. Formato yml, não é um arquivo de marcação .
+# Criar um conatainer php (L5 - L11) que vão ser criados a partir da pasta build (ler o dockfile), usando a 
+# porta 80 da máquina e lido na porta 80 do docker (mesma coisa para a porta 443). Criar um container 
+# de Mysql(L13- L19).
+
+# version: '3.3'
+
+# services:
+#     php:
+#         build: .
+#         ports:
+#         - "80:80"
+#         - "443:443"
+#         volumes:
+#         - ./www/:/var/www/html
+#         links:
+#         - db
+
+#     db:
+#         image: mysql:5.7
+#         volumes:
+#         - /var/lib/mysql
+#         environment:
+#         - MYSQL_ROOT_PASSWORD=myrootpass
+#         - MYSQL_DATABASE=mydatabase
+
+version: '3.3'
+
+services:
+    wordpress_db:
+        image: mysql:5.7
+        volumes:
+        - db_data:/var/lib/mysql
+        restart: always
+        environment:
+        MYSQL_ROOT_PASSWORD: myrootpass
+        MYSQL_DATABASE: wordpress
+        MYSQL_USER: wordpress
+        MYSQL_PASSWORD: wordpress
+
+wordpress:
+    depends_on:
+        - wordpress_db
+    image: wordpress:latest
+    ports:
+        - "80:80"
+        - "443:443"
+    restart: always
+    environment:
+        WORDPRESS_DB_HOST: wordpress_db:3306
+        WORDPRESS_DB_USER: wordpress
+        WORDPRESS_DB_PASSWORD: wordpress
+
+phpmyadmin:
+    depends_on:
+        - wordpress_db
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+        - 88:80
+    environment:
+        PMA_HOST: wordpress_db:3306
+        MYSQL_ROOT_PASSWORD: myrootpass
+
+volumes:
+    db_data:
+

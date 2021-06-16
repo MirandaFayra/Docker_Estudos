@@ -1,0 +1,35 @@
+Docker File 
+
+From -> define em qual versão você quer pegar. Nesse caso, a última versão do node mais reduzida ;
+
+Workdir -> define o diretório que você irá trabalhar ;
+
+Package*.json ./ -> copia todos os arquivos que começam com o package e terminam com o json ;
+
+Expose ->  Qual porta o docker precisa expor para rodar ;
+
+CMD -> qual é o comando que eu preciso startar para o servidor rodar, deve ser única por dockerfile usar
+um array ao invés de espaço ;
+
+--------------------------------------------------------------------------------------------------------
+
+No terminal
+
+1 -) Fazer docker-compose -v ;
+
+2-) docker build -t nome_d0_container/dockernode . -> monta a imagem
+
+3-) docker run -p _Número_da_Porta -d  nome_d0_container/dockernode  -> roda e escolhe a imagem que você deseja
+ rodar;
+
+4-) docker-compose up  -> rodar direto sem as portas e o build orquestrador
+
+
+ -------------------------------------------------------------------------------------------------------
+
+ Docker compose é um orquestrador de como a aplicação deverá funcionar;
+
+ Volume -> espelar uma pasta dentro de um container;
+
+ Arquivo docker compose construção dos containers
+
